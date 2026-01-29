@@ -1,0 +1,51 @@
+import pygame
+import random
+
+pygame.init()
+
+WIDTH, HEIGHT = 500, 400
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Custom Event: Change Sprite Color")
+
+CHANGE_COLOR = pygame.USEREVENT + 1
+pygame.time.set_timer(CHANGE_COLOR, 1000)
+
+class Box(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((60, 60))
+        self.color = (255, 0, 0)
+        self.image.fill(self.color)
+        self.rect = self.image.get_rect(topleft=(x, y))
+
+    def change_color(self):
+        self.color = (
+            random.randint(0, 255),
+            random.randint(0, 255),
+            random.randint(0, 255)
+        )
+        self.image.fill(self.color)
+
+sprite1 = Box(100, 150)
+sprite2 = Box(300, 150)
+
+sprites = pygame.sprite.Group(sprite1, sprite2)
+
+running = True
+clock = pygame.time.Clock()
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == CHANGE_COLOR:
+            for sprite in sprites:
+                sprite.change_color()
+
+    screen.fill((255, 255, 255))
+    sprites.draw(screen)
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()

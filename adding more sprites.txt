@@ -1,0 +1,36 @@
+import pygame
+import random
+
+pygame.init()
+screen = pygame.display.set_mode((600, 400))
+score = 0
+
+ufo = pygame.transform.scale(pygame.image.load("ufo.jpg"), (50, 50))
+enemy_img = pygame.transform.scale(pygame.image.load("enemy.jpg"), (40, 40))
+
+player = ufo.get_rect(center=(300, 300))
+enemies = [enemy_img.get_rect(topleft=(random.randint(0, 550), random.randint(0, 200))) for _ in range(7)]
+
+while True:
+    if pygame.event.peek(pygame.QUIT): break
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:  player.x -= 5
+    if keys[pygame.K_RIGHT]: player.x += 5
+    if keys[pygame.K_UP]:    player.y -= 5
+    if keys[pygame.K_DOWN]:  player.y += 5
+
+    screen.fill((255, 255, 255))
+    screen.blit(ufo, player)
+
+    for e in enemies:
+        screen.blit(enemy_img, e)
+        if player.colliderect(e):
+            score += 1
+            print("Score:", score)
+            e.x, e.y = random.randint(0, 550), random.randint(0, 200)
+
+    pygame.display.flip()
+    pygame.time.delay(10)
+
+pygame.quit()

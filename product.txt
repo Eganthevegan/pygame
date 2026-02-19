@@ -1,0 +1,27 @@
+import tkinter as tk
+
+def multiply():
+    n1 = float(entry1.get())
+    n2 = float(entry2.get())
+    
+    result = n1 * n2
+    
+    result_label.config(text=f"Product: {result}")
+
+root = tk.Tk()
+root.title("Simple Multiplier")
+root.geometry('400x300')
+
+entry1 = tk.Entry(root)
+entry1.pack()
+
+entry2 = tk.Entry(root)
+entry2.pack()
+
+btn = tk.Button(root, text="Multiply", command=multiply)
+btn.pack()
+
+result_label = tk.Label(root, text="Product: ")
+result_label.pack()
+
+root.mainloop()
